@@ -1,0 +1,21 @@
+{% extends "header.html" %}
+{% block title %}Edit your account{% endblock %}
+{% block content %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">
+                {{ message|safe }}
+                <a href="#" class="close">x</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+ <h1>Edit your account</h1>
+ <p>You can edit your account using the following form:</p>
+ <form method="post" enctype="multipart/form-data">
+    {{ u_form.as_p }}
+    {{ p_form.as_p }}
+    {% csrf_token %}
+ <p><input type="submit" value="Save changes"></p>
+ </form>
+{% endblock %}

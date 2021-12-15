@@ -1,0 +1,49 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+
+{% if not user.is_authenticated %}
+    <h2>ابتدا باید ثبت نام کنید یا <a href="{% url 'login' %}">وارد</a> شوید</h2>
+    {% else %}
+    <section class="main">
+    <div class="wrapper">
+        <div class="left-col">
+            {% for AA in post %}
+
+                <div class="post">
+                <div class="info">
+                    <div class="user">
+                        <div class="profile-pic">
+                        {% for im in AA.profile_image.all %}
+                        <img src="{{ im.photo.url }}" alt="">
+                        {% endfor %}
+                        </div>
+                        <p class="username">{{ AA.user }}</p>
+                    </div>
+                    <img src="" class="options" alt="">
+                </div>
+                <img src="{{ AA.image.url }}" class="post-image" alt="">
+                <div class="post-content">
+                    <div class="reaction-wrapper">
+                        <img src="{% static 'img/icone/icons8-heart-26.png' %}" class="icon" alt="">
+                        <img src="{% static 'img/icone/icons8-speech-bubble-26.png' %}" class="icon" alt="">
+                        <img src="{% static 'img/icone/icons8-email-send-26.png' %}" class="icon" alt="">
+                        <img src="{% static 'img/icone/icons8-bookmark-26.png' %}" class="save icon" alt="">
+                    </div>
+                    <p class="likes">1,012 likes</p>
+                    <p class="description"><span>{{ AA.user }}</span> {{ AA.description }}</p>
+                    <p class="post-time">{{ AA.created }}</p>
+                </div>
+                <div class="comment-wrapper">
+                    <img src="img/smile.PNG" class="icon" alt="">
+                    <input type="text" class="comment-box" placeholder="Add a comment">
+                    <button class="comment-btn">post</button>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock content %}
