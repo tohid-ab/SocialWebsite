@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Image
+from .models import Image, Like
 from django.template.defaultfilters import truncatechars
 # Register your models here.
 
@@ -16,3 +16,4 @@ class ImageAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Image, ImageAdmin)
+admin.site.register(Like)

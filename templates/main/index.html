@@ -8,14 +8,14 @@
     <section class="main">
     <div class="wrapper">
         <div class="left-col">
-            {% for AA in post %}
+            {% for AA in posts %}
 
                 <div class="post">
                 <div class="info">
                     <div class="user">
                         <div class="profile-pic">
-                        {% for im in AA.profile_image.all %}
-                        <img src="{{ im.photo.url }}" alt="">
+                        {% for profile_image in AA.profile_image.all %}
+                        <img src="{{ im.profile_image.url }}" alt="">
                         {% endfor %}
                         </div>
                         <p class="username">{{ AA.user }}</p>
@@ -30,7 +30,43 @@
                         <img src="{% static 'img/icone/icons8-email-send-26.png' %}" class="icon" alt="">
                         <img src="{% static 'img/icone/icons8-bookmark-26.png' %}" class="save icon" alt="">
                     </div>
-                    <p class="likes">1,012 likes</p>
+                   <p id="{{ AA.pk }}" class="counter"> {{ AA.likes.count }} like</p>
+                    <button onclick="likePost(this)" id="{{ AA.pk }}" > {% if AA in liked_posts %} Liked {% else %} Like {% endif %} </button>
+                    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+                    <script>
+                        // Load a login template if user is not signed in
+                        const likePost = function(button){
+
+                            post_id = $(button).attr('id');
+                            $.ajax({
+                                type:'POST',
+                                url: '/post/like/',
+                                data: {
+                                'post_id': post_id,
+                                'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
+                                },
+
+                                success: function (response) {
+                                    if(response.liked){
+                                        $(button).html('Liked');
+                                        current_likes = parseInt($('#' + post_id).html()) ;
+                                        $('#' + post_id).html(current_likes + 1);
+
+                                    }
+                                    else{
+                                        $(button).html('Like');
+                                        current_likes = parseInt($('#' + post_id).html()) ;
+                                        $('#' + post_id).html(current_likes - 1);
+                                    };
+                                },
+
+                                error: () =>{
+                                    console.log("sorry something went wrong"); // Use alert or notify user
+                                }
+                            })
+                        };
+                    </script>
                     <p class="description"><span>{{ AA.user }}</span> {{ AA.description }}</p>
                     <p class="post-time">{{ AA.created }}</p>
                 </div>
@@ -41,7 +77,7 @@
                 </div>
             </div>
             {% endfor %}
-
+            {% csrf_token %}
         </div>
     </div>
 </section>

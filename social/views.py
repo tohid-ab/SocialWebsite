@@ -6,20 +6,48 @@ from django.urls import reverse_lazy
 from .mixins import FormValidMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Image
+from .models import Image, Like
 from accounts.models import Profile
+from django.http import JsonResponse
 # Create your views here.
 
 
-class Home(TemplateView):
-    template_name = 'main/index.html'
-    success_url = reverse_lazy('Home')
+# class Home(TemplateView):
+#     template_name = 'main/index.html'
+#     success_url = reverse_lazy('Home')
+#
+#     def get_context_data(self, *args, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['posts'] = Image.objects.all().order_by('-created')
+#         context['liked_posts'] = Like.objects.all()
+#         context['image_profile'] = Profile.objects.all()
+#         return context
 
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['post'] = Image.objects.all().order_by('-created')
-        context['image_profile'] = Profile.objects.all()
-        return context
+@login_required
+def like(request):
+    post_id = request.POST['post_id']
+    post = Image.objects.get(pk=post_id)
+    liked = True
+
+    like_object, created = Like.objects.get_or_create(user_id=request.user, post_id=post)
+    if not created:
+        like_object.delete()  # the user already liked this picture before
+        liked = False
+
+    return JsonResponse({'liked': liked})
+
+
+def posts(request):
+    posts = Image.objects.all()
+    liked_posts = []
+
+    for liked_post in request.user.likes.all():  # likes is the related name used in models
+        liked_posts.append(liked_post.post_id)
+
+    return render(request, 'main/index.html', {'posts': posts, 'liked_posts': liked_posts})
+
+
+
 
 
 class ImageCreateView(FormValidMixin, CreateView):
