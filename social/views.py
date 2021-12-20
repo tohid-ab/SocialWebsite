@@ -2,12 +2,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, DetailView, CreateView, ListView
-from django.urls import reverse_lazy
 from .mixins import FormValidMixin
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from .models import Image, Like
-from accounts.models import Profile
 from django.http import JsonResponse
 # Create your views here.
 
@@ -22,6 +19,7 @@ from django.http import JsonResponse
 #         context['liked_posts'] = Like.objects.all()
 #         context['image_profile'] = Profile.objects.all()
 #         return context
+
 
 @login_required
 def like(request):
@@ -41,13 +39,10 @@ def posts(request):
     posts = Image.objects.all()
     liked_posts = []
 
-    for liked_post in request.user.likes.all():  # likes is the related name used in models
+    for liked_post in request.user.likes.all():
         liked_posts.append(liked_post.post_id)
 
     return render(request, 'main/index.html', {'posts': posts, 'liked_posts': liked_posts})
-
-
-
 
 
 class ImageCreateView(FormValidMixin, CreateView):

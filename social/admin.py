@@ -1,7 +1,12 @@
 from django.contrib import admin
-from .models import Image, Like
+from .models import Image, Like, Comment
 from django.template.defaultfilters import truncatechars
 # Register your models here.
+
+
+class CommentLine(admin.StackedInline):
+    model = Comment
+    extra = 0
 
 
 class ImageAdmin(admin.ModelAdmin):
@@ -13,6 +18,10 @@ class ImageAdmin(admin.ModelAdmin):
         return obj.description[:55]
 
     get_description.short_description = "description"
+
+    inlines = [
+        CommentLine,
+    ]
 
 
 admin.site.register(Image, ImageAdmin)

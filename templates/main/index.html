@@ -25,13 +25,19 @@
                 <img src="{{ AA.image.url }}" class="post-image" alt="">
                 <div class="post-content">
                     <div class="reaction-wrapper">
-                        <img src="{% static 'img/icone/icons8-heart-26.png' %}" class="icon" alt="">
                         <img src="{% static 'img/icone/icons8-speech-bubble-26.png' %}" class="icon" alt="">
                         <img src="{% static 'img/icone/icons8-email-send-26.png' %}" class="icon" alt="">
                         <img src="{% static 'img/icone/icons8-bookmark-26.png' %}" class="save icon" alt="">
                     </div>
+
                    <p id="{{ AA.pk }}" class="counter"> {{ AA.likes.count }} like</p>
-                    <button onclick="likePost(this)" id="{{ AA.pk }}" > {% if AA in liked_posts %} Liked {% else %} Like {% endif %} </button>
+                    <button style="background: none;border: none;" onclick="likePost(this)" id="{{ AA.pk }}" >
+                            {% if AA in liked_posts %}
+                                <img src="{% static 'img/icone/icons8-love-26.png' %}" class="icon" alt="">
+                            {% else %}
+                                <img src="{% static 'img/icone/icons8-heart-26.png' %}" class="icon" alt="">
+                            {% endif %}
+                        </button>
                     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
                     <script>
@@ -49,31 +55,39 @@
 
                                 success: function (response) {
                                     if(response.liked){
-                                        $(button).html('Liked');
+                                        $(button).html('<img src="{% static 'img/icone/icons8-love-26.png' %}" class="icon" alt="">');
                                         current_likes = parseInt($('#' + post_id).html()) ;
-                                        $('#' + post_id).html(current_likes + 1);
+                                        $('#' + post_id).html(current_likes + 1 + ' like');
 
                                     }
                                     else{
-                                        $(button).html('Like');
+                                        $(button).html('<img src="{% static 'img/icone/icons8-heart-26.png' %}" class="icon" alt="">');
                                         current_likes = parseInt($('#' + post_id).html()) ;
-                                        $('#' + post_id).html(current_likes - 1);
+                                        $('#' + post_id).html(current_likes - 1 + ' like');
                                     };
                                 },
 
                                 error: () =>{
-                                    console.log("sorry something went wrong"); // Use alert or notify user
+                                    console.log("sorry something went wrong");
                                 }
                             })
                         };
                     </script>
                     <p class="description"><span>{{ AA.user }}</span> {{ AA.description }}</p>
+                    <p>---</p>
+                    <p class="comment">View all {{ AA.comments.count }} comments</p>
+                    {% for comment in AA.comments.all %}
+                        <p class="comment-people">{{ comment.author }} {{ comment.comment }}</p>
+                    {% endfor %}
                     <p class="post-time">{{ AA.created }}</p>
                 </div>
                 <div class="comment-wrapper">
                     <img src="img/smile.PNG" class="icon" alt="">
-                    <input type="text" class="comment-box" placeholder="Add a comment">
-                    <button class="comment-btn">post</button>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{comment_form.as_p}}
+                        <button class="comment-btn">post</button>
+                    </form>
                 </div>
             </div>
             {% endfor %}

@@ -37,10 +37,21 @@ class Like(models.Model):
     post_id = models.ForeignKey(Image, on_delete=models.CASCADE, related_name='likes')
     liked_on = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        constraints = [
-            UniqueConstraint(fields=['user_id', 'post_id'],  name="unique_blog_likes")
-        ]
-
     def __str__(self):
         return f'{self.user_id.username} --> {self.post_id.id}{self.post_id.user}'
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Image, on_delete=models.CASCADE, related_name='comments')
+    comment = models.CharField(max_length=140)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,)
+
+    class Meta:
+        verbose_name = 'کامنت'
+        verbose_name_plural = 'کامنت ها'
+
+    def __str__(self):
+        return f'{self.author}'
+
+    def get_absolute_url(self):
+        return reverse('article_list')

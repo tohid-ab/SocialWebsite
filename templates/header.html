@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,10 +17,10 @@
                     <a href="{% url 'logout' %}">exit</a>
                     <a href="{% url 'Home' %}"><img src="{% static 'img/icone/icons8-home-26.png' %}" class="icon" alt=""></a>
                     <img src="{% static 'img/icone/icons8-email-send-26.png' %}" class="icon" alt="">
-{#                    <img id="myBtn" src="{% static 'img/icone/icons8-add-26.png' %}" class="icon" alt="">#}
                     <a href="{% url 'create' %}"><img src="{% static 'img/icone/icons8-add-26.png' %}" class="icon" alt=""></a>
                     <img src="{% static 'img/icone/icons8-compass-26.png' %}" class="icon" alt="">
                     <a href="{% url 'profile' %}"><img src="{% static 'img/icone/icons8-male-user-26.png' %}" class="icon" alt=""></a>
+                    <span>{{ user.username }}</span>
                     {% else %}
                     <span>login</span>
                     <a href="{% url 'login' %}">
