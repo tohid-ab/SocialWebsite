@@ -26,3 +26,4 @@ class ImageAdmin(admin.ModelAdmin):
 
 admin.site.register(Image, ImageAdmin)
 admin.site.register(Like)
+admin.site.register(Comment)

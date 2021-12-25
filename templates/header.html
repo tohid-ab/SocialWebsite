@@ -10,7 +10,7 @@
 <body>
     <nav class="navbar">
         <div class="nav-wrapper">
-            <img src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" class="brand-img" alt="">
+            <a href="{% url 'Home' %}"><img src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" class="brand-img" alt=""></a>
             <input type="text" class="search-box" placeholder="search">
             <div class="nav-items">
                 {% if user.is_authenticated %}

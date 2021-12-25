@@ -20,6 +20,7 @@ class Image(models.Model):
     class Meta:
         verbose_name = 'Post'
         verbose_name_plural = 'Posts'
+        ordering = ['-created']
 
     def __str__(self):
         return f'{self.id}{self.user}'
@@ -45,13 +46,14 @@ class Comment(models.Model):
     post = models.ForeignKey(Image, on_delete=models.CASCADE, related_name='comments')
     comment = models.CharField(max_length=140)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,)
+    created = models.DateField(auto_now=True)
 
     class Meta:
-        verbose_name = 'کامنت'
-        verbose_name_plural = 'کامنت ها'
+        verbose_name = 'comment'
+        verbose_name_plural = 'comments'
 
     def __str__(self):
-        return f'{self.author}'
+        return f'{self.author} & {self.post} | time:{self.created}'
 
     def get_absolute_url(self):
         return reverse('article_list')
