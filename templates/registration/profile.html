@@ -1,9 +1,87 @@
 {% extends 'header.html' %}
 {% load static %}
 {% block content %}
-    <div>
-        <h2>Hi {{ user.username }}</h2>
-        <h3><a href="{% url 'password_change' %}">Change password</a></h3>
-        <h3><a href="{% url 'edit' %}">edit profile</a></h3>
-    </div>
+{#    <div>#}
+{#        <h2>Hi {{ user.username }}</h2>#}
+{#        <h3><a href="{% url 'password_change' %}">Change password</a></h3>#}
+{#        <h3><a href="{% url 'edit' %}">edit profile</a></h3>#}
+{#    </div>#}
+
+<header>
+
+	<div class="container">
+
+		<div class="profile">
+
+			<div class="profile-image">
+                {% if user.profile.photo.url == user.profile.photo.url %}
+				<img src="{{ user.profile.photo.url }}" alt="">
+                {% endif %}
+			</div>
+
+			<div class="profile-user-settings">
+
+				<h1 class="profile-user-name">{{ user.username }}</h1>
+
+				<button class="btn profile-edit-btn"><a href="{% url 'edit' %}">Edit Profile</a></button>
+
+				<button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
+
+			</div>
+
+			<div class="profile-stats">
+
+				<ul>
+					<li><span class="profile-stat-count">{{ post.count }}</span> posts</li>
+					<li><span class="profile-stat-count">0</span> followers</li>
+					<li><span class="profile-stat-count">0</span> following</li>
+				</ul>
+
+			</div>
+
+			<div class="profile-bio">
+
+				<p><span class="profile-real-name"></span>{{ user.profile.bio }}</p>
+
+			</div>
+
+		</div>
+		<!-- End of profile section -->
+
+	</div>
+	<!-- End of container -->
+
+</header>
+
+<main>
+
+	<div class="container">
+
+		<div class="gallery">
+
+			{% for posts in post %}
+			    <div class="gallery-item" tabindex="0">
+
+				<img id="img123" src="{{ posts.image.url }}" class="gallery-image" alt="">
+
+				<div class="gallery-item-info">
+
+					<ul>
+						<li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i>{{ posts.likes.count }}</li>
+						<li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i>{{ posts.comments.count }}</li>
+					</ul>
+
+				</div>
+
+			</div>
+			{% endfor %}
+
+
+		</div>
+		<!-- End of gallery -->
+
+	</div>
+	<!-- End of container -->
+
+</main>
 {% endblock %}

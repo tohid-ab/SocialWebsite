@@ -7,6 +7,7 @@ from django.views.generic import DetailView, ListView
 from django.views.generic.edit import FormView, UpdateView
 from django.contrib.auth.forms import UserChangeForm
 from .models import *
+from social.models import Image
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
@@ -84,6 +85,12 @@ class ProfileView(UpdateView):
     form_class = UserChangeForm
     success_url = reverse_lazy("Home")
     template_name = 'registration/profile.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['post'] = Image.objects.filter(user=self.object)
+        # context['number'] = Post.objects.count() #نمایش تعداد پست ها
+        return context
 
     def dispatch(self, request, *args, **kwargs):
         Profile.objects.get_or_create(user=request.user)

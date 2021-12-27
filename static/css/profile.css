@@ -1,0 +1,43 @@
+/*:root {*/
+/*    font-size: 10px;*/
+/*}*/
+
+/**,*/
+/**::before,*/
+/**::after {*/
+/*    box-sizing: border-box;*/
+/*}*/
+
+/*body {*/
+/*    font-family: "Open Sans", Arial, sans-serif;*/
+/*    min-height: 100vh;*/
+/*    background-color: #fafafa;*/
+/*    color: #262626;*/
+/*    padding-bottom: 3rem;*/
+/*}*/
+
+/*img {*/
+/*    display: block;*/
+/*}*/
+
+/*.container {*/
+/*    max-width: 93.5rem;*/
+/*    margin: 0 auto;*/
+/*    padding: 0 2rem;*/
+/*}*/
+
+/*.btn {*/
+/*    display: inline-block;*/
+/*    font: inherit;*/
+/*    background: none;*/
+/*    border: none;*/
+/*    color: inherit;*/
+/*    padding: 0;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.btn:focus {*/
+/*    outline: 0.5rem auto #4d90fe;*/
+/*}*/
+
+

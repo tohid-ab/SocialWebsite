@@ -44,7 +44,7 @@ class Like(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(Image, on_delete=models.CASCADE, related_name='comments')
-    comment = models.CharField(max_length=140)
+    comment = models.CharField(max_length=140,)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,)
     created = models.DateField(auto_now=True)
 
