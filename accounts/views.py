@@ -75,12 +75,6 @@ def profile_edit(request):
     return render(request, 'registration/edit_profile.html', context)
 
 
-# class ProfileImageView(ListView):
-#     model = Profile
-#     template_name = 'main/index.html'
-#     context_object_name = 'image'
-
-
 class ProfileView(UpdateView):
     form_class = UserChangeForm
     success_url = reverse_lazy("Home")

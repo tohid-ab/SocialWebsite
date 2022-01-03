@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
+from django.conf import settings
 from django.views.generic import TemplateView, DetailView, CreateView, ListView
 from .mixins import FormValidMixin
 from django.contrib.auth.decorators import login_required
@@ -28,14 +29,17 @@ def like(request):
 
 
 def posts(request):
-    posts = Image.objects.all()
-    liked_posts = []
-    comments = CommentForm()
+    if request.user.is_authenticated:
+        posts = Image.objects.all()
+        liked_posts = []
+        comments = CommentForm()
 
-    for liked_post in request.user.likes.all():
-        liked_posts.append(liked_post.post_id)
+        for liked_post in request.user.likes.all():
+            liked_posts.append(liked_post.post_id)
 
-    return render(request, 'main/index.html', {'posts': posts, 'liked_posts': liked_posts, 'comments': comments})
+        return render(request, 'main/index.html', {'posts': posts, 'liked_posts': liked_posts, 'comments': comments})
+    else:
+        return redirect('login')
 
 
 class ImageCreateView(FormValidMixin, CreateView):
@@ -96,16 +100,3 @@ class PostComment(SingleObjectMixin, FormView):
     def get_success_url(self):
         post = self.get_object()
         return reverse('post-detail', kwargs={'pk': post.pk}) + '#comments'
-
-
-class UserDetailView(DetailView):
-    model = get_user_model()
-    template_name = 'main/user_detail.html'
-
-    def get_object(self):
-
-        object = get_object_or_404(User, username=self.kwargs.get("username"))
-
-        if self.request.user.username == object.username:
-            return object
-        return self.request.user
