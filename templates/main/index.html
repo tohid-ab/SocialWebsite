@@ -18,7 +18,7 @@
                         <img src="{{ im.profile_image.url }}" alt="">
                         {% endfor %}
                         </div>
-                        <p class="username">{{ AA.user }}</p>
+                        <a href="{% url 'user_profile_detail' AA.user.pk %}"><p class="username">{{ AA.user }}</p></a>
                     </div>
                     <img src="" class="options" alt="">
                 </div>

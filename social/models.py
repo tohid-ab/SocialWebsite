@@ -39,7 +39,7 @@ class Like(models.Model):
     liked_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.user_id.username} --> {self.post_id.id}{self.post_id.user}'
+        return f'{self.user_id.username} --> {self.post_id.id} | post_user: {self.post_id.user}'
 
 
 class Comment(models.Model):

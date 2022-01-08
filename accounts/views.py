@@ -94,3 +94,49 @@ class ProfileView(UpdateView):
 
     def get_object(self):
         return self.request.user
+
+
+def follow_unfollow_user(request):
+    if request.method == "POST":
+        my_profile = Profile.objects.get(user=request.user)
+        pk = request.POST.get('profile_pk')
+        obj = Profile.objects.get(pk=pk)
+
+        if obj.user in my_profile.following.all():
+            my_profile.following.remove(obj.user)
+        else:
+            my_profile.following.add(obj.user)
+        return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('user_profile_detail')
+
+
+class DetailUserProfiles(DetailView):
+    model = Profile
+    template_name = 'user/user.html'
+    context_object_name = 'profiles'
+
+    def get_object(self, **kwargs):
+        pk = self.kwargs.get('pk')
+        view_profile = Profile.objects.get(pk=pk)
+        view_post = Image.objects.filter(user=pk)
+        return view_profile
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        view_profile = self.get_object()
+        view_post = self.get_object()
+        my_profile = Profile.objects.get(user=self.request.user)
+        if view_profile.user in my_profile.following.all():
+            follow = True
+        else:
+            follow = False
+        context['follow'] = follow
+        context['post_user'] = view_post
+        return context
+
+
+
+
+
+# def get_queryset(self): نمایش بدون محدودیت کاربر
+#     return Profile.objects.all().exclude(user=self.request.user)
