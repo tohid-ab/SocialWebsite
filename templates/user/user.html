@@ -41,7 +41,7 @@
 				<ul>
 					<li><span class="profile-stat-count">{{ post_user.count }}</span> posts</li>
 					<li><span class="profile-stat-count">0</span> followers</li>
-					<li><span class="profile-stat-count">{{ object.following.count }}</span> following</li>
+					<li><span class="profile-stat-count">{{ object.follower.count }}</span> following</li>
 				</ul>
 
 			</div>
@@ -66,7 +66,7 @@
 
 		<div class="gallery">
 
-			{% for posts in post %}
+			{% for posts in post.object %}
 			    <div class="gallery-item" tabindex="0">
 
 				<img id="img123" src="{{ posts.image.url }}" class="gallery-image" alt="">

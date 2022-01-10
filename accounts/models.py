@@ -9,7 +9,7 @@ from django.utils.html import format_html
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    following = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='following', blank=True)
+    following = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='followers', blank=True)
     bio = models.TextField(max_length=500, blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
     photo = models.ImageField(default="profile/profile.jpg", upload_to='users/',

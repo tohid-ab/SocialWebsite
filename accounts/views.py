@@ -12,6 +12,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from .form import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
+from django.conf import settings
 
 # Create your views here.
 
@@ -83,7 +84,7 @@ class ProfileView(UpdateView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context['post'] = Image.objects.filter(user=self.object)
-        # context['number'] = Post.objects.count() #نمایش تعداد پست ها
+        context['author'] = Profile.objects.get(user=self.object)
         return context
 
     def dispatch(self, request, *args, **kwargs):
@@ -118,7 +119,6 @@ class DetailUserProfiles(DetailView):
     def get_object(self, **kwargs):
         pk = self.kwargs.get('pk')
         view_profile = Profile.objects.get(pk=pk)
-        view_post = Image.objects.filter(user=pk)
         return view_profile
 
     def get_context_data(self, **kwargs):
