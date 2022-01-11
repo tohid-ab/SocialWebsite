@@ -2,11 +2,15 @@
 {% block title %}Edit your account{% endblock %}
 {% block content %}
     {% if messages %}
-        <ul class="messages">
+        <ul class="messages" style="width: 21%;margin: 20px 20px;">
             {% for message in messages %}
-                <li class="{{ message.tags }}">
-                {{ message|safe }}
-                <a href="#" class="close">x</a></li>
+                <div class="ui success message">
+                  <i class="close icon"></i>
+                  <div class="header">
+                    {{ message|safe }}
+                  </div>
+                  <p>.</p>
+                </div>
             {% endfor %}
         </ul>
     {% endif %}

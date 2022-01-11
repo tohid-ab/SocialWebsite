@@ -7,7 +7,7 @@ from django.views.generic import TemplateView, DetailView, CreateView, ListView
 from .mixins import FormValidMixin
 from django.contrib.auth.decorators import login_required
 from .models import Image, Like, Comment
-from .forms import CommentForm
+from .forms import CommentForm, CreatePostForm
 from django.http import JsonResponse
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic import FormView
@@ -43,9 +43,8 @@ def posts(request):
 
 
 class ImageCreateView(FormValidMixin, CreateView):
-    model = Image
+    form_class = CreatePostForm
     template_name = 'post/creat_post.html'
-    fields = ['image', 'description']
 
 
 class PostDetailView(DetailView):

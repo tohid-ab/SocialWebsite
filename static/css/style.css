@@ -13,7 +13,7 @@
 
 body{
     width: 100%;
-    background: #fafafa;
+    background: #fafafa !important;
     position: relative;
     font-family: 'roboto', sans-serif;
 }
@@ -325,6 +325,18 @@ body{
     opacity: 1;
     font-weight: 700;
     font-size: 12px;
+}
+
+.field{
+    width: 100%;
+}
+
+#file{
+    background: #2185d0;
+    padding: 11px;
+    width: 100%;
+    color: white;
+    border-radius: 12px;
 }
 
 .suggestion-text{
