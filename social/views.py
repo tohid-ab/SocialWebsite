@@ -11,6 +11,7 @@ from .forms import CommentForm, CreatePostForm
 from django.http import JsonResponse
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic import FormView
+
 # Create your views here.
 
 

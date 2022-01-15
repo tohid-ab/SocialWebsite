@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-
+from django.forms import Textarea, FileInput, TextInput
 from .models import Profile
 
 
@@ -9,11 +9,31 @@ class UserEditForm(forms.ModelForm):
         model = User
         fields = ['first_name', 'last_name', 'email']
 
+    def __init__(self, *args, **kwargs):
+        super(UserEditForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].widget = TextInput(attrs={
+            'class': 'f_name'})
+        self.fields['last_name'].widget = TextInput(attrs={
+            'class': 'f_name'})
+        self.fields['email'].widget = TextInput(attrs={
+            'class': 'f_name'})
+
 
 class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['date_of_birth', 'bio', 'photo']
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileEditForm, self).__init__(*args, **kwargs)
+        self.fields['bio'].widget = Textarea(attrs={
+            'class': 'field'})
+        self.fields['photo'].widget = FileInput(attrs={
+            'id': 'file'
+        })
+        self.fields['date_of_birth'].widget = TextInput(attrs={
+            'class': 'f_name'
+        })
 
 
 class LoginForm(forms.Form):

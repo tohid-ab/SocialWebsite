@@ -81,17 +81,16 @@ class ProfileView(UpdateView):
     success_url = reverse_lazy("Home")
     template_name = 'registration/profile.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('login')
+        return super(ProfileView, self).dispatch(request, *args, **kwargs)
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context['post'] = Image.objects.filter(user=self.object)
         context['author'] = Profile.objects.get(user=self.object)
         return context
-
-    def dispatch(self, request, *args, **kwargs):
-        Profile.objects.get_or_create(user=request.user)
-        if not request.user.is_authenticated:
-            return redirect('login')
-        return super(ProfileView, self).dispatch(request, *args, **kwargs)
 
     def get_object(self):
         return self.request.user

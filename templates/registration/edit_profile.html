@@ -14,12 +14,14 @@
             {% endfor %}
         </ul>
     {% endif %}
- <h1>Edit your account</h1>
- <p>You can edit your account using the following form:</p>
- <form method="post" enctype="multipart/form-data">
-    {{ u_form.as_p }}
-    {{ p_form.as_p }}
-    {% csrf_token %}
- <p><input type="submit" value="Save changes"></p>
- </form>
+    <div class="edit-p">
+         <h1>Edit your account</h1>
+         <p>You can edit your account using the following form:</p>
+         <form method="post" enctype="multipart/form-data">
+            {{ u_form.as_p }}
+            {{ p_form.as_p }}
+            {% csrf_token %}
+            <p><input class="ui primary button" type="submit" value="Save changes"></p>
+         </form>
+    </div>
 {% endblock %}
